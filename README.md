@@ -55,10 +55,12 @@ provider-approved service endpoint and a dedicated credential in `MERGERAY_TOKEN
 ```sh
 mergeray --base BASE_COMMIT --head HEAD_COMMIT \
   --repository REGISTERED_REPOSITORY_ID \
-  --service https://SERVICE_NOT_PROVISIONED.invalid --config examples/mergeray.policy.json
+  --service https://source.breaklint.com --config examples/mergeray.policy.json
 ```
 
-Uppercase values and the `.invalid` host are deliberate nonworking placeholders.
+Uppercase values are deliberate nonworking placeholders. The default endpoint
+`https://source.breaklint.com` and Action audience `urn:breaklint:source-service`
+are intentional temporary legacy wire identities for MergeRay 0.2.0.
 Service enrollment and authorization for the repository and policy are required;
 installing a package does not grant access. The command transfers source and is not
 a dry run. Uncommitted files are outside the comparison.

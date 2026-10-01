@@ -4,16 +4,16 @@
 network access, authorization for source transfer, a service endpoint and a dedicated
 credential supplied through `MERGERAY_TOKEN`. No environment dump is sent.
 
-| Option                  | Meaning                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------ |
-| `--base <revision>`     | Required exact baseline commit or trusted local ref; no automatic merge-base substitution. |
-| `--head <revision>`     | Raw Head commit or trusted local ref; defaults to HEAD.                                    |
-| `--repository <id>`     | Required service-registered repository identity.                                           |
-| `--service <https-url>` | Required trusted HTTPS endpoint without credentials, query or fragment.                    |
-| `--config <path>`       | Explicit trusted JSON policy; no automatic discovery or JS/TS execution.                   |
-| `--request-id <id>`     | Replay the same frozen submission; cannot reuse an ID for different revisions/policy.      |
-| `--json`                | Emit the validated public result, including findings and approved locations.               |
-| `--help`, `--version`   | Print help or package version.                                                             |
+| Option                  | Meaning                                                                                                         |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `--base <revision>`     | Required exact baseline commit or trusted local ref; no automatic merge-base substitution.                      |
+| `--head <revision>`     | Raw Head commit or trusted local ref; defaults to HEAD.                                                         |
+| `--repository <id>`     | Required service-registered repository identity.                                                                |
+| `--service <https-url>` | Optional trusted HTTPS endpoint; defaults to `https://source.breaklint.com`. No credentials, query or fragment. |
+| `--config <path>`       | Explicit trusted JSON policy; no automatic discovery or JS/TS execution.                                        |
+| `--request-id <id>`     | Replay the same frozen submission; cannot reuse an ID for different revisions/policy.                           |
+| `--json`                | Emit the validated public result, including findings and approved locations.                                    |
+| `--help`, `--version`   | Print help or package version.                                                                                  |
 
 The CLI resolves immutable commits and reads Git objects, not the working tree.
 It prints source counts and frozen request/revision IDs before submission. This
@@ -54,3 +54,7 @@ For local development, run `pnpm build` then
 consumer with local dependency overrides, and exercises imports, declarations and
 `npx --offline --no-install --package=@mergeray/cli mergeray` using synthetic
 revisions and transport. It does not contact the hosted analysis service.
+
+The default endpoint is an intentional temporary legacy wire identity for MergeRay
+0.2.0. No final MergeRay domain or HTTP redirect is required; explicit endpoint
+overrides must be trusted and authorized. See [migration](migration.md).

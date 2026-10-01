@@ -57,13 +57,13 @@ export function validateHostedResponse(
   return { result, missingBlobs: missing as string[] };
 }
 export function createHostedClient(options: {
-  endpoint: string;
+  endpoint?: string;
   token: string;
   fetch?: typeof fetch;
 }) {
   let endpoint: URL;
   try {
-    endpoint = new URL(options.endpoint);
+    endpoint = new URL(options.endpoint ?? "https://source.breaklint.com");
   } catch {
     throw new HostedClientError("INVALID_INPUT");
   }

@@ -31,7 +31,8 @@ jobs:
           persist-credentials: false
       - uses: Mergeray/mergeray/action@RELEASE_FULL_COMMIT
         with:
-          service-url: https://SERVICE_NOT_PROVISIONED.invalid
-          oidc-audience: RELEASE_OPERATOR_REGISTERED_AUDIENCE
+          # Intentional temporary legacy wire identities for MergeRay 0.2.0.
+          service-url: https://source.breaklint.com
+          oidc-audience: urn:breaklint:source-service
           github-token: ${{ github.token }}
           inline: "false"

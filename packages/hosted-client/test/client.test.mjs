@@ -83,6 +83,7 @@ test("auth errors are bounded, never retried and never expose raw response text"
 });
 test("client refuses insecure endpoints before transmitting credentials", () => {
   for (const endpoint of [
+    "",
     "http://example.invalid",
     "https://user:secret@example.invalid",
     "https://example.invalid/?token=secret",
@@ -90,8 +91,9 @@ test("client refuses insecure endpoints before transmitting credentials", () => 
     assert.throws(() => createHostedClient({ endpoint, token: "test" }));
 });
 
-test("explicit old and new origins are served directly with no audience or hostname fallback", async () => {
+test("default legacy wire origin and explicit origins are served directly without fallback", async () => {
   for (const endpoint of [
+    undefined,
     "https://source.breaklint.com",
     "https://mergeray-service.example.invalid",
   ]) {
@@ -102,7 +104,7 @@ test("explicit old and new origins are served directly with no audience or hostn
       token: "synthetic",
       fetch: async (url, init) => {
         const target = new URL(url);
-        assert.equal(target.origin, endpoint);
+        assert.equal(target.origin, endpoint ?? "https://source.breaklint.com");
         assert.equal(init.redirect, "error");
         assert.equal(init.headers["user-agent"], "mergeray/0.2.0");
         paths.push(target.pathname);

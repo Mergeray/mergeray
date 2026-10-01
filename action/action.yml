@@ -6,12 +6,13 @@ branding:
   color: purple
 inputs:
   service-url:
-    description: Trusted HTTPS service endpoint, without credentials or query parameters.
+    description: Trusted HTTPS service endpoint; the default is an intentional temporary legacy wire identity.
     required: true
+    default: https://source.breaklint.com
   oidc-audience:
     description: Exact audience registered by the hosted service operator. Requires id-token write permission.
     required: true
-    default: urn:mergeray:source-service
+    default: urn:breaklint:source-service
   github-token:
     description: GitHub Actions token for provider context and publication, separate from service authentication.
     required: true

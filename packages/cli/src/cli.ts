@@ -29,7 +29,11 @@ export async function runCli(input: CliInput): Promise<number> {
     .requiredOption("--base <revision>", "Exact baseline commit or trusted local ref")
     .option("--head <revision>", "Raw Head commit or local ref", "HEAD")
     .requiredOption("--repository <id>", "Service-registered repository ID")
-    .requiredOption("--service <https-url>", "Authenticated MergeRay service endpoint")
+    .option(
+      "--service <https-url>",
+      "Authenticated MergeRay service endpoint",
+      "https://source.breaklint.com",
+    )
     .option("--config <path>", "Explicit trusted declarative JSON policy file")
     .option("--request-id <id>", "Replay the same frozen request")
     .option("--json", "Print the public result as JSON")

@@ -22,16 +22,27 @@ The new Action lives at `Mergeray/mergeray/action@FULL_VERIFIED_COMMIT_SHA` and
 publishes the Check named `MergeRay`. Update branch protection deliberately after
 proving the new Check. New and legacy Actions use separate publication journals;
 do not switch Action identity in the middle of a workflow rerun. Start a fresh
-workflow run when migrating. The new canonical OIDC audience is
-`urn:mergeray:source-service`; the operator must register the exact immutable
-trusted workflow, repository ID and owner ID before use. Do not substitute old
-Action pins into a new workflow registration.
+workflow run when migrating. The operator must register the exact immutable
+trusted workflow, repository ID and owner ID before use, preserving all existing
+0.1.0 registrations. Do not substitute old Action pins into a new registration.
 
-Legacy `breaklint/breaklint` immutable Action pins and `source.breaklint.com`
-remain a separate compatibility path using the operator's exact old audience
-`urn:breaklint:source-service`. The new client accepts an explicit HTTPS endpoint;
-no MergeRay domain has been approved here. Authenticated requests reject redirects.
-There is no automatic retry against another hostname or audience.
+For the initial MergeRay 0.2.0 release, the CLI, Action and hosted client default
+to `https://source.breaklint.com`, and the Action requests exactly
+`urn:breaklint:source-service`. These are intentional temporary legacy
+SECURITY/WIRE identities, not public branding. Breaklint 0.1.0 already uses them;
+the final MergeRay domain is not yet available. Legacy `breaklint/breaklint`
+immutable Action pins continue using the same service unchanged.
+
+No new domain, second hosted instance or new audience is required for 0.2.0.
+The service accepts one exact configured audience, with no wildcard or audience
+array support. Authenticated requests reject redirects, and there is no automatic
+retry against another hostname or audience. Explicit endpoint and exact audience
+overrides still require matching operator authorization.
+
+A future dual-host/audience migration is deferred to separate owner approval,
+provisioning and acceptance checks. It must preserve direct legacy service routing
+and isolate each exact audience and registration boundary; it is not a prerequisite
+for this release.
 
 Protocol 1.0 schemas, JCS behavior and the `breaklint-analysis-policy-1`,
 `breaklint-transfer-policy-1`, `breaklint-source-package-1`, and

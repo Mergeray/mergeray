@@ -59,6 +59,7 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
     });
     assert.match(help, /Usage: mergeray/);
     assert.match(help, /--base/);
+    assert.ok(help.includes("https://source.breaklint.com"));
     assert.deepEqual(
       Object.keys(
         JSON.parse(
@@ -114,6 +115,8 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
 import {CAPABILITIES} from '@mergeray/hosted-client';
 import {requestDigest,RULE_IDS} from '@mergeray/public-protocol/internal';
 globalThis.fetch=async (url,init)=>{
+ if(new URL(url).origin !== (process.env.EXPECTED_ORIGIN ?? "https://fixture.invalid")) throw new Error("wrong service origin");
+ if(init.redirect !== "error") throw new Error("redirects must fail");
  if(process.env.EXPECTED_TOKEN && init.headers.authorization !== "Bearer " + process.env.EXPECTED_TOKEN) throw new Error("wrong credential precedence");
  if(init.headers["user-agent"] !== "mergeray/0.2.0") throw new Error("wrong client identity");
  if(process.env.TEST_INTERRUPT==='1'){process.emit('SIGINT');return new Response(JSON.stringify({errorSchemaVersion:'1.0',code:'UNAUTHENTICATED',retry:'never'}),{status:401});}
@@ -150,6 +153,19 @@ globalThis.fetch=async (url,init)=>{
       });
       assert.equal(JSON.parse(output).outcome.conclusion, "pass");
     }
+    const defaultArgs = args.filter(
+      (arg) => !["--service", "https://fixture.invalid"].includes(arg),
+    );
+    const defaultOutput = execFileSync(process.execPath, defaultArgs, {
+      cwd: directory,
+      encoding: "utf8",
+      env: {
+        PATH: process.env.PATH,
+        MERGERAY_TOKEN: "synthetic",
+        EXPECTED_ORIGIN: "https://source.breaklint.com",
+      },
+    });
+    assert.equal(JSON.parse(defaultOutput).outcome.conclusion, "pass");
     assert.throws(
       () =>
         execFileSync(process.execPath, args, {
