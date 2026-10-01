@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "private": true,
+  "version": "0.2.0",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mergeray/mergeray.git",
+    "directory": "action"
+  },
+  "homepage": "https://github.com/Mergeray/mergeray#readme",
+  "bugs": {
+    "url": "https://github.com/Mergeray/mergeray/issues"
+  }
+}

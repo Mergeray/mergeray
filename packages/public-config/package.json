@@ -1,0 +1,49 @@
+{
+  "name": "@mergeray/public-config",
+  "version": "0.2.0",
+  "type": "module",
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "Unicode-License.txt",
+    "LICENSE.md",
+    "NOTICE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mergeray/public-protocol": "workspace:*",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "22.20.1"
+  },
+  "description": "Declarative user configuration for MergeRay hosted source review.",
+  "engines": {
+    "node": "22.14.0 || 24.21.0"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mergeray/mergeray.git",
+    "directory": "packages/public-config"
+  },
+  "homepage": "https://github.com/Mergeray/mergeray#readme",
+  "bugs": {
+    "url": "https://github.com/Mergeray/mergeray/issues"
+  }
+}

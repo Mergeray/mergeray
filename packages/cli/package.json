@@ -1,0 +1,52 @@
+{
+  "name": "@mergeray/cli",
+  "version": "0.2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mergeray/public-config": "workspace:*",
+    "@mergeray/public-protocol": "workspace:*",
+    "@mergeray/hosted-client": "workspace:*",
+    "commander": "15.0.0"
+  },
+  "description": "Review committed source revisions with the hosted MergeRay service.",
+  "license": "Apache-2.0",
+  "bin": {
+    "mergeray": "./bin/mergeray.js"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "README.md",
+    "bin/mergeray.js",
+    "THIRD_PARTY_NOTICES.md",
+    "Unicode-License.txt",
+    "LICENSE.md",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": "22.14.0 || 24.21.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mergeray/mergeray.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/Mergeray/mergeray#readme",
+  "bugs": {
+    "url": "https://github.com/Mergeray/mergeray/issues"
+  }
+}

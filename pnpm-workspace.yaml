@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+
+minimumReleaseAge: 1440
+verifyDepsBeforeRun: false
+
+# Use the locked platform binary; dependency lifecycle scripts are unnecessary.
+allowBuilds:
+  esbuild: false

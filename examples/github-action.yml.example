@@ -1,0 +1,25 @@
+# Nonworking caller template. Replace every RELEASE_* placeholder before use.
+name: Source review
+on:
+  pull_request:
+permissions: {}
+concurrency:
+  group: mergeray-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+jobs:
+  fork-unavailable:
+    if: github.event.pull_request.head.repo.id != github.event.repository.id
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "MergeRay unavailable: fork authentication is not supported."
+          exit 1
+  source-review:
+    if: github.event.pull_request.head.repo.id == github.event.repository.id
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+      pull-requests: read
+      checks: write
+    uses: RELEASE_TRUSTED_OWNER/RELEASE_TRUSTED_REPOSITORY/.github/workflows/mergeray.yml@RELEASE_FULL_TRUSTED_COMMIT

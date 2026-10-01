@@ -1,0 +1,47 @@
+{
+  "name": "@mergeray/github-action",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "@actions/github": "9.1.1",
+    "@mergeray/hosted-client": "workspace:*",
+    "@mergeray/public-config": "workspace:*",
+    "@mergeray/public-protocol": "workspace:*"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "Unicode-License.txt",
+    "LICENSE.md",
+    "NOTICE"
+  ],
+  "description": "Publish hosted MergeRay source review results on GitHub pull requests.",
+  "engines": {
+    "node": "22.14.0 || 24.21.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mergeray/mergeray.git",
+    "directory": "packages/github-action"
+  },
+  "homepage": "https://github.com/Mergeray/mergeray#readme",
+  "bugs": {
+    "url": "https://github.com/Mergeray/mergeray/issues"
+  }
+}
