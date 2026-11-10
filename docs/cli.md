@@ -4,16 +4,16 @@
 network access, authorization for source transfer, a service endpoint and a dedicated
 credential supplied through `MERGERAY_TOKEN`. No environment dump is sent.
 
-| Option                  | Meaning                                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `--base <revision>`     | Required exact baseline commit or trusted local ref; no automatic merge-base substitution.                      |
-| `--head <revision>`     | Raw Head commit or trusted local ref; defaults to HEAD.                                                         |
-| `--repository <id>`     | Required service-registered repository identity.                                                                |
-| `--service <https-url>` | Optional trusted HTTPS endpoint; defaults to `https://source.breaklint.com`. No credentials, query or fragment. |
-| `--config <path>`       | Explicit trusted JSON policy; no automatic discovery or JS/TS execution.                                        |
-| `--request-id <id>`     | Replay the same frozen submission; cannot reuse an ID for different revisions/policy.                           |
-| `--json`                | Emit the validated public result, including findings and approved locations.                                    |
-| `--help`, `--version`   | Print help or package version.                                                                                  |
+| Option                  | Meaning                                                                                                        |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `--base <revision>`     | Required exact baseline commit or trusted local ref; no automatic merge-base substitution.                     |
+| `--head <revision>`     | Raw Head commit or trusted local ref; defaults to HEAD.                                                        |
+| `--repository <id>`     | Required service-registered repository identity.                                                               |
+| `--service <https-url>` | Optional trusted HTTPS endpoint; defaults to `https://source.mergeray.com`. No credentials, query or fragment. |
+| `--config <path>`       | Explicit trusted JSON policy; no automatic discovery or JS/TS execution.                                       |
+| `--request-id <id>`     | Replay the same frozen submission; cannot reuse an ID for different revisions/policy.                          |
+| `--json`                | Emit the validated public result, including findings and approved locations.                                   |
+| `--help`, `--version`   | Print help or package version.                                                                                 |
 
 The CLI resolves immutable commits and reads Git objects, not the working tree.
 It prints source counts and frozen request/revision IDs before submission. This
@@ -38,13 +38,13 @@ findings, an unavailable service, or a cancelled run as a clean comparison.
 After publication of 0.2.0:
 
 ```sh
-npm install --global @mergeray/cli@0.2.0
+npm install --global mergeray@0.2.0
 mergeray --help
-npx --package=@mergeray/cli@0.2.0 mergeray --version
+npx mergeray@0.2.0 --version
 ```
 
 These registry examples describe post-publication usage and do not assert current
-availability. The package is `@mergeray/cli`; its executable is `mergeray`.
+availability. The package is `mergeray`; its executable is `mergeray`.
 Service enrollment and authorization are required for analysis; installation alone
 does not grant service access. See [source processing](source-processing.md).
 
@@ -52,9 +52,9 @@ For local development, run `pnpm build` then
 `node packages/cli/bin/mergeray.js --help` from the repository root.
 `pnpm test:consumer` packs all four intended npm packages, installs them in an empty
 consumer with local dependency overrides, and exercises imports, declarations and
-`npx --offline --no-install --package=@mergeray/cli mergeray` using synthetic
+`npx --offline --no-install --package=mergeray mergeray` using synthetic
 revisions and transport. It does not contact the hosted analysis service.
 
-The default endpoint is an intentional temporary legacy wire identity for MergeRay
-0.2.0. No final MergeRay domain or HTTP redirect is required; explicit endpoint
-overrides must be trusted and authorized. See [migration](migration.md).
+The default endpoint is `https://source.mergeray.com`. HTTP redirects are not
+followed; explicit endpoint overrides must be trusted and authorized. See
+[migration](migration.md).

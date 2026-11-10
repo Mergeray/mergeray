@@ -86,7 +86,7 @@ test("runner OIDC transport is bounded and credential-separated", async () => {
   );
 });
 
-test("explicit initial-release and future custom audiences never cause credential fallback", async () => {
+test("explicit custom audiences never cause credential fallback", async () => {
   for (const audience of [
     "urn:breaklint:source-service",
     "urn:mergeray:source-service",
@@ -120,12 +120,12 @@ test("explicit initial-release and future custom audiences never cause credentia
   }
 });
 
-test("MergeRay 0.2.0 Action defaults retain the exact legacy wire identities", async () => {
+test("MergeRay 0.2.0 Action defaults use the exact MergeRay wire identities", async () => {
   const action = readFileSync(new URL("../action.yml", import.meta.url), "utf8");
   const endpoint = action.match(/service-url:[\s\S]*?default: (\S+)/)?.[1];
   const audience = action.match(/oidc-audience:[\s\S]*?default: (\S+)/)?.[1];
-  assert.equal(endpoint, "https://source.breaklint.com");
-  assert.equal(audience, "urn:breaklint:source-service");
+  assert.equal(endpoint, "https://source.mergeray.com");
+  assert.equal(audience, "urn:mergeray:source-service");
   assert.match(action, /^name: MergeRay$/m);
   const calls = [];
   await sameRepoCredential(
@@ -139,5 +139,5 @@ test("MergeRay 0.2.0 Action defaults retain the exact legacy wire identities", a
       }),
     () => {},
   );
-  assert.deepEqual(calls, ["urn:breaklint:source-service"]);
+  assert.deepEqual(calls, ["urn:mergeray:source-service"]);
 });

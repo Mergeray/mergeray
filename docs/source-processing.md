@@ -6,6 +6,27 @@ source is not used for AI or model training. User data and source are not sold o
 used for advertising. The public v1 source-review path does not call an AI/model
 service and does not require executing the customer's application.
 
+## Do you keep my private code?
+
+Public and private source reviews process your code temporarily for analysis.
+MergeRay does not maintain a permanent copy of your codebase or reuse a raw
+source cache between reviews. Processing uses memory and temporary analysis
+storage, so this does not mean code is never stored.
+
+Source cleanup and result retention are separate:
+
+- Source buffers are cleared when a review completes, fails, is cancelled or
+  times out. Temporary files are removed as execution finishes; after a crash,
+  recovery removes the service's leftovers when it restarts.
+- Results and request metadata have a 24-hour replay window. That window does
+  not require keeping raw source and is not an exact physical deletion deadline.
+- GitHub Checks and job summaries follow GitHub's own access and retention
+  settings. Removing a MergeRay record does not remove published GitHub output.
+
+The sections below describe what is transferred, what can remain and the
+cleanup limits. This describes the current implementation; production storage
+and recovery configuration still require deployment verification before launch.
+
 ## What is submitted
 
 The public CLI and GitHub Action prepare a bounded package of committed source at
@@ -37,23 +58,42 @@ complete browser or CSS equivalence.
 
 ## Source content
 
-Raw source bodies are processed transiently in memory and temporary analysis
-storage. Normal run completion clears the upload-body collection and removes the
-temporary analysis storage through the existing cleanup path. Source content is
-therefore temporarily stored during processing; this is not a claim that code is
-never stored or that every copy is immediately and irreversibly erased.
+Raw source bodies are processed in memory and temporary analysis storage. The
+service does not maintain a persistent repository mirror or a cross-review raw
+source cache. On completion, failure, cancellation or timeout, it clears its
+managed upload buffers and admitted-source copies and releases their references.
+The analysis workspace is removed as execution unwinds, including error paths.
+Abandoned uploads time out without requiring another client request.
+
+The upload window is 10 minutes from acceptance. A started review has an overall
+deadline of 30 minutes from acceptance. These are processing limits, not promises
+that all temporary or infrastructure copies are physically erased by that time.
+
+On restart, the service acquires exclusive ownership of its record store before
+removing leftovers from its own managed temporary workspace directory. Graceful
+shutdown waits for active execution cleanup before releasing ownership. A process
+crash can leave temporary files until recovery; unavailable storage can delay
+cleanup. Source is therefore temporarily stored during processing. These controls
+are not a promise of immediate or irreversible erasure of every runtime, operating
+system or infrastructure copy.
 
 ## Provenance and request metadata
 
 Run records may retain repository/request identities, revision identifiers,
-policy, source manifests, digests and Git provenance objects for bounded replay,
+policy, source manifests, digests and Git provenance descriptors for bounded replay,
 idempotency and operational reliability. These records are distinct from raw
 source bodies, but may still contain sensitive repository paths and commit metadata.
 
 The current implementation has a **24-hour durable replay window**. Replay expiry
 limits reuse of a run; it is not a guarantee of deletion at precisely 24 hours.
-Expired durable records are removed during service startup or subsequent admission,
-so physical removal can occur later than expiry.
+Expired durable records are removed during service startup, subsequent admission
+and a maintenance sweep scheduled every minute while the service is running.
+Physical removal can occur later than expiry if the service is stopped, busy or
+unable to access its storage. The replay window does not require retaining raw
+source bodies.
+
+This window applies to accepted source-review run records. It does not define
+retention for all workspace, account or billing data.
 
 ## Results
 

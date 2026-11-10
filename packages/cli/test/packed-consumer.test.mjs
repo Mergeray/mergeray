@@ -23,7 +23,11 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
         cwd: join(root, "packages", name),
         stdio: "pipe",
       });
-      const dest = join(directory, "node_modules", "@mergeray/" + name);
+      const dest = join(
+        directory,
+        "node_modules",
+        name === "cli" ? "mergeray" : "@mergeray/" + name,
+      );
       mkdirSync(dest, { recursive: true });
       execFileSync("tar", ["-xzf", tar, "--strip-components=1", "-C", dest]);
     }
@@ -51,7 +55,7 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
         dereference: true,
       });
     }
-    const cli = join(directory, "node_modules/@mergeray/cli/bin/mergeray.js");
+    const cli = join(directory, "node_modules/mergeray/bin/mergeray.js");
     const help = execFileSync(process.execPath, [cli, "--help"], {
       cwd: directory,
       encoding: "utf8",
@@ -59,14 +63,11 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
     });
     assert.match(help, /Usage: mergeray/);
     assert.match(help, /--base/);
-    assert.ok(help.includes("https://source.breaklint.com"));
+    assert.ok(help.includes("https://source.mergeray.com"));
     assert.deepEqual(
       Object.keys(
         JSON.parse(
-          readFileSync(
-            join(directory, "node_modules/@mergeray/cli/package.json"),
-            "utf8",
-          ),
+          readFileSync(join(directory, "node_modules/mergeray/package.json"), "utf8"),
         ).bin,
       ),
       ["mergeray"],
@@ -77,18 +78,25 @@ test("packed CLI runs in a consumer with zero private engine dependencies", () =
       [
         "--input-type=module",
         "-e",
-        "import * as cli from '@mergeray/cli'; console.log(Object.keys(cli).sort().join(','));",
+        "import * as cli from 'mergeray'; console.log(Object.keys(cli).sort().join(','));",
       ],
       { cwd: directory, encoding: "utf8" },
     );
     assert.equal(inspect.trim(), "defineConfig,projectPolicy");
     assert.deepEqual(readdirSync(join(directory, "node_modules/@mergeray")).sort(), [
-      "cli",
       "hosted-client",
       "public-config",
       "public-protocol",
     ]);
+    const packedManifest = JSON.parse(
+      readFileSync(join(directory, "node_modules/mergeray/package.json"), "utf8"),
+    );
+    assert.equal(packedManifest.name, "mergeray");
     const consumerRequire = createRequire(join(directory, "consumer.cjs"));
+    assert.throws(() => consumerRequire.resolve("@mergeray/cli"));
+    assert.throws(() => consumerRequire.resolve("mergeray/dist/cli.js"), {
+      code: "ERR_PACKAGE_PATH_NOT_EXPORTED",
+    });
     assert.throws(() => consumerRequire.resolve("@mergeray/core"));
     writeFileSync(join(directory, "package.json"), JSON.stringify({ type: "module" }));
     // Exercise committed packaging and the CLI terminal/exit path through a bounded
@@ -162,7 +170,7 @@ globalThis.fetch=async (url,init)=>{
       env: {
         PATH: process.env.PATH,
         MERGERAY_TOKEN: "synthetic",
-        EXPECTED_ORIGIN: "https://source.breaklint.com",
+        EXPECTED_ORIGIN: "https://source.mergeray.com",
       },
     });
     assert.equal(JSON.parse(defaultOutput).outcome.conclusion, "pass");

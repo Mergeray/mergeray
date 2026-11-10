@@ -43640,7 +43640,7 @@ function validateHostedResponse(value, prepared, runId) {
 function createHostedClient(options) {
   let endpoint2;
   try {
-    endpoint2 = new URL(options.endpoint ?? "https://source.breaklint.com");
+    endpoint2 = new URL(options.endpoint ?? "https://source.mergeray.com");
   } catch {
     throw new HostedClientError("INVALID_INPUT");
   }

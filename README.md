@@ -34,18 +34,18 @@ outside public v1.
 
 ## Use the CLI
 
-The CLI package is `@mergeray/cli`; the executable is `mergeray`. After publication
+The CLI package is `mergeray`; the executable is `mergeray`. After publication
 of 0.2.0, use:
 
 ```sh
-npm install --global @mergeray/cli@0.2.0
+npm install --global mergeray@0.2.0
 mergeray --help
-npx --package=@mergeray/cli@0.2.0 mergeray --version
+npx mergeray@0.2.0 --version
 ```
 
 These registry examples describe post-publication usage, not current availability.
 The intended npm family is `@mergeray/public-protocol`, `@mergeray/public-config`,
-`@mergeray/hosted-client` and `@mergeray/cli`. The Action workspace package remains
+`@mergeray/hosted-client` and `mergeray`. The Action workspace package remains
 private and is distributed from `Mergeray/mergeray/action`, pinned to a verified
 full commit SHA. See the [Action guide](docs/github-action.md).
 
@@ -55,12 +55,12 @@ provider-approved service endpoint and a dedicated credential in `MERGERAY_TOKEN
 ```sh
 mergeray --base BASE_COMMIT --head HEAD_COMMIT \
   --repository REGISTERED_REPOSITORY_ID \
-  --service https://source.breaklint.com --config examples/mergeray.policy.json
+  --service https://source.mergeray.com --config examples/mergeray.policy.json
 ```
 
 Uppercase values are deliberate nonworking placeholders. The default endpoint
-`https://source.breaklint.com` and Action audience `urn:breaklint:source-service`
-are intentional temporary legacy wire identities for MergeRay 0.2.0.
+`https://source.mergeray.com` and Action audience `urn:mergeray:source-service`
+identify the hosted MergeRay service.
 Service enrollment and authorization for the repository and policy are required;
 installing a package does not grant access. The command transfers source and is not
 a dry run. Uncommitted files are outside the comparison.

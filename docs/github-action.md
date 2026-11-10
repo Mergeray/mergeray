@@ -12,13 +12,13 @@ The trusted reusable workflow coordinate is operator-specific and must be regist
 These templates apply after publication and service enrollment; they do not claim
 that either is already available. Moving version tags are not equivalent to immutable pins.
 
-| Input             | Purpose                                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------------------ |
-| service-url       | Trusted HTTPS service; defaults to `https://source.breaklint.com`.                               |
-| oidc-audience     | Exact operator audience; defaults to `urn:breaklint:source-service`. Requires `id-token: write`. |
-| github-token      | Separate GitHub context/publication token; defaults to github.token.                             |
-| working-directory | Git checkout containing exact Base and raw Head; defaults to `.`.                                |
-| inline            | Reserved compatibility input; keep `false`. Public v1 supports Check/summary only.               |
+| Input             | Purpose                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| service-url       | Trusted HTTPS service; defaults to `https://source.mergeray.com`.                               |
+| oidc-audience     | Exact operator audience; defaults to `urn:mergeray:source-service`. Requires `id-token: write`. |
+| github-token      | Separate GitHub context/publication token; defaults to github.token.                            |
+| working-directory | Git checkout containing exact Base and raw Head; defaults to `.`.                               |
+| inline            | Reserved compatibility input; keep `false`. Public v1 supports Check/summary only.              |
 
 Outputs are `status`, `conclusion`, `delivery` and `run-id`. Source conclusion and
 publication delivery remain separate. Missing credentials, unsupported events and
@@ -42,8 +42,7 @@ is no static MergeRay token fallback. The service must register the repository
 and owner IDs, caller workflow path, Base branch, approved policy and immutable
 reusable workflow SHA. The workflow must use that pinned reusable workflow;
 direct unregistered workflow jobs cannot authenticate. See the two example files.
-Token expiry or unavailable provider metadata fails closed. The defaults `https://source.breaklint.com` and `urn:breaklint:source-service`
-are intentional temporary legacy wire identities for MergeRay 0.2.0. Service
-enrollment remains required; no new domain, second instance or audience migration
-is required. The service retains exact single-audience validation. See
-[migration](migration.md) for compatibility and deferred migration guidance.
+Token expiry or unavailable provider metadata fails closed. The defaults `https://source.mergeray.com` and `urn:mergeray:source-service`
+identify the hosted MergeRay service. Service enrollment remains required. The
+service retains exact single-audience validation. See
+[migration](migration.md) for compatibility guidance.

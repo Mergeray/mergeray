@@ -32,7 +32,7 @@ export async function runCli(input: CliInput): Promise<number> {
     .option(
       "--service <https-url>",
       "Authenticated MergeRay service endpoint",
-      "https://source.breaklint.com",
+      "https://source.mergeray.com",
     )
     .option("--config <path>", "Explicit trusted declarative JSON policy file")
     .option("--request-id <id>", "Replay the same frozen request")

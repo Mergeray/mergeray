@@ -63,7 +63,7 @@ export function createHostedClient(options: {
 }) {
   let endpoint: URL;
   try {
-    endpoint = new URL(options.endpoint ?? "https://source.breaklint.com");
+    endpoint = new URL(options.endpoint ?? "https://source.mergeray.com");
   } catch {
     throw new HostedClientError("INVALID_INPUT");
   }

@@ -4,7 +4,7 @@ Breaklint 0.1.0 → MergeRay 0.2.0 is one product lineage. This is a rename, wit
 no acquisition or ownership change. The canonical repository will be
 [Mergeray/mergeray](https://github.com/Mergeray/mergeray).
 
-After 0.2.0 is published, install `@mergeray/cli@0.2.0` and run `mergeray`.
+After 0.2.0 is published, install `mergeray@0.2.0` and run `mergeray`.
 The other packages are `@mergeray/public-protocol`, `@mergeray/public-config` and
 `@mergeray/hosted-client`. Update imports to that scope. There is no `breaklint`
 executable alias in the new package. Existing `@breaklint/*@0.1.0` installs keep
@@ -26,14 +26,12 @@ workflow run when migrating. The operator must register the exact immutable
 trusted workflow, repository ID and owner ID before use, preserving all existing
 0.1.0 registrations. Do not substitute old Action pins into a new registration.
 
-For the initial MergeRay 0.2.0 release, the CLI, Action and hosted client default
-to `https://source.breaklint.com`, and the Action requests exactly
-`urn:breaklint:source-service`. These are intentional temporary legacy
-SECURITY/WIRE identities, not public branding. Breaklint 0.1.0 already uses them;
-the final MergeRay domain is not yet available. Legacy `breaklint/breaklint`
-immutable Action pins continue using the same service unchanged.
+For MergeRay 0.2.0, the CLI, Action and hosted client default to
+`https://source.mergeray.com`, and the Action requests exactly
+`urn:mergeray:source-service`. The retired Breaklint 0.1.0 endpoint
+(`source.breaklint.com`) is not served by MergeRay; legacy `breaklint/breaklint`
+Action pins are not supported by the MergeRay service.
 
-No new domain, second hosted instance or new audience is required for 0.2.0.
 The service accepts one exact configured audience, with no wildcard or audience
 array support. Authenticated requests reject redirects, and there is no automatic
 retry against another hostname or audience. Explicit endpoint and exact audience

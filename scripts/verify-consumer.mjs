@@ -63,7 +63,7 @@ try {
     mkdirSync(dest, { recursive: true });
     run("tar", ["-xzf", tar, "--strip-components=1", "-C", dest]);
     const manifest = JSON.parse(readFileSync(join(dest, "package.json"), "utf8"));
-    assert.equal(manifest.name, `@mergeray/${name}`);
+    assert.equal(manifest.name, name === "cli" ? "mergeray" : `@mergeray/${name}`);
     assert.equal(manifest.version, "0.2.0");
     assert.equal(manifest.license, "Apache-2.0");
     assert.equal(manifest.private === true, name === "github-action");
@@ -79,7 +79,8 @@ try {
         readFileSync(join(dest, file), "utf8"),
         readFileSync(join(root, file), "utf8"),
       );
-    if (name === "cli") assert.equal(manifest.bin.mergeray, "./bin/mergeray.js");
+    if (name === "cli")
+      assert.deepEqual(manifest.bin, { mergeray: "./bin/mergeray.js" });
     assert.equal(
       readFileSync(join(dest, "Unicode-License.txt"), "utf8"),
       readFileSync(join(root, "Unicode-License.txt"), "utf8"),
@@ -135,7 +136,7 @@ try {
     installedStore,
     "@types/node@22.20.1",
   ]);
-  const cli = join(consumer, "node_modules/@mergeray/cli/bin/mergeray.js");
+  const cli = join(consumer, "node_modules/mergeray/bin/mergeray.js");
   assert.match(run(process.execPath, [cli, "--help"]), /--base/);
   assert.equal(
     run(process.execPath, [cli, "--version"]).trim(),
@@ -145,20 +146,25 @@ try {
     run("npx", [
       "--offline",
       "--no-install",
-      "--package=@mergeray/cli",
+      "--package=mergeray",
       "mergeray",
       "--help",
     ]),
     /--repository/,
   );
+  assert.equal(
+    run("npx", ["--offline", "--no-install", "mergeray", "--version"]).trim(),
+    "0.2.0",
+  );
+  assert.ok(!readdirSync(join(consumer, "node_modules/.bin")).includes("breaklint"));
   writeFileSync(
     join(consumer, "consumer.mjs"),
-    `import assert from 'node:assert/strict';import * as protocol from '@mergeray/public-protocol';import {defineConfig,projectPolicy} from '@mergeray/cli';import * as config from '@mergeray/public-config';import * as client from '@mergeray/hosted-client';assert.deepEqual(Object.keys(protocol),[]);assert.equal(projectPolicy(defineConfig({})).scope.kind,'repository');assert.equal(typeof client.prepareAnalysis,'function');assert.deepEqual(Object.keys(config).sort(),['defineConfig','projectPolicy','validateConfig']);try{await import('@mergeray/public-protocol/dist/schemas.js');assert.fail('deep import accepted')}catch(e){assert.equal(e.code,'ERR_PACKAGE_PATH_NOT_EXPORTED')}`,
+    `import assert from 'node:assert/strict';import * as protocol from '@mergeray/public-protocol';import {defineConfig,projectPolicy} from 'mergeray';import * as config from '@mergeray/public-config';import * as client from '@mergeray/hosted-client';assert.deepEqual(Object.keys(protocol),[]);assert.equal(projectPolicy(defineConfig({})).scope.kind,'repository');assert.equal(typeof client.prepareAnalysis,'function');assert.deepEqual(Object.keys(config).sort(),['defineConfig','projectPolicy','validateConfig']);try{await import('@mergeray/public-protocol/dist/schemas.js');assert.fail('deep import accepted')}catch(e){assert.equal(e.code,'ERR_PACKAGE_PATH_NOT_EXPORTED')}`,
   );
   run(process.execPath, ["consumer.mjs"]);
   writeFileSync(
     join(consumer, "consumer.ts"),
-    `import {defineConfig,projectPolicy,type UserConfig} from '@mergeray/cli';import type {AnalysisRequest,AnalysisResult,PublicFinding,PublicAnalysisPolicy} from '@mergeray/public-protocol';import {createHostedClient,prepareAnalysis} from '@mergeray/hosted-client';const config:UserConfig=defineConfig({});const policy:PublicAnalysisPolicy=projectPolicy(config);void policy;void createHostedClient;void prepareAnalysis;export type Result=[AnalysisRequest,AnalysisResult,PublicFinding];\n// @ts-expect-error no wire helper at public root\nimport type {RevisionSourcePackage} from '@mergeray/public-protocol';\n// @ts-expect-error no private deep-import promise\nimport type {HostedResponse} from '@mergeray/hosted-client/dist/client.js';`,
+    `import {defineConfig,projectPolicy,type UserConfig} from 'mergeray';import type {AnalysisRequest,AnalysisResult,PublicFinding,PublicAnalysisPolicy} from '@mergeray/public-protocol';import {createHostedClient,prepareAnalysis} from '@mergeray/hosted-client';const config:UserConfig=defineConfig({});const policy:PublicAnalysisPolicy=projectPolicy(config);void policy;void createHostedClient;void prepareAnalysis;export type Result=[AnalysisRequest,AnalysisResult,PublicFinding];\n// @ts-expect-error no wire helper at public root\nimport type {RevisionSourcePackage} from '@mergeray/public-protocol';\n// @ts-expect-error no private deep-import promise\nimport type {HostedResponse} from '@mergeray/hosted-client/dist/client.js';`,
   );
   run(process.execPath, [
     join(root, "node_modules/typescript/bin/tsc"),
@@ -228,7 +234,7 @@ try {
     [
       "--offline",
       "--no-install",
-      "--package=@mergeray/cli",
+      "--package=mergeray",
       "mergeray",
       "--base",
       base,

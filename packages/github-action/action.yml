@@ -6,13 +6,13 @@ branding:
   color: purple
 inputs:
   service-url:
-    description: Trusted HTTPS service endpoint; the default is an intentional temporary legacy wire identity.
+    description: Trusted HTTPS service endpoint of the hosted MergeRay service.
     required: true
-    default: https://source.breaklint.com
+    default: https://source.mergeray.com
   oidc-audience:
     description: Exact audience registered by the hosted service operator. Requires id-token write permission.
     required: true
-    default: urn:breaklint:source-service
+    default: urn:mergeray:source-service
   github-token:
     description: GitHub Actions token for provider context and publication, separate from service authentication.
     required: true

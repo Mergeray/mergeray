@@ -16,21 +16,21 @@
     },
     { "owner": "@mergeray/hosted-client", "name": "ignore", "version": "7.0.6" },
     {
-      "owner": "@mergeray/cli",
+      "owner": "mergeray",
       "name": "@mergeray/public-config",
       "version": "workspace:*"
     },
     {
-      "owner": "@mergeray/cli",
+      "owner": "mergeray",
       "name": "@mergeray/public-protocol",
       "version": "workspace:*"
     },
     {
-      "owner": "@mergeray/cli",
+      "owner": "mergeray",
       "name": "@mergeray/hosted-client",
       "version": "workspace:*"
     },
-    { "owner": "@mergeray/cli", "name": "commander", "version": "15.0.0" },
+    { "owner": "mergeray", "name": "commander", "version": "15.0.0" },
     { "owner": "@mergeray/github-action", "name": "@actions/core", "version": "3.0.1" },
     {
       "owner": "@mergeray/github-action",

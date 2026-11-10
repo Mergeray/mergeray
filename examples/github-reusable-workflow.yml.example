@@ -31,8 +31,7 @@ jobs:
           persist-credentials: false
       - uses: Mergeray/mergeray/action@RELEASE_FULL_COMMIT
         with:
-          # Intentional temporary legacy wire identities for MergeRay 0.2.0.
-          service-url: https://source.breaklint.com
-          oidc-audience: urn:breaklint:source-service
+          service-url: https://source.mergeray.com
+          oidc-audience: urn:mergeray:source-service
           github-token: ${{ github.token }}
           inline: "false"

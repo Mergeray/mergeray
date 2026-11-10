@@ -91,10 +91,10 @@ test("client refuses insecure endpoints before transmitting credentials", () => 
     assert.throws(() => createHostedClient({ endpoint, token: "test" }));
 });
 
-test("default legacy wire origin and explicit origins are served directly without fallback", async () => {
+test("default MergeRay origin and explicit origins are served directly without fallback", async () => {
   for (const endpoint of [
     undefined,
-    "https://source.breaklint.com",
+    "https://source.mergeray.com",
     "https://mergeray-service.example.invalid",
   ]) {
     const f = fixture();
@@ -104,7 +104,7 @@ test("default legacy wire origin and explicit origins are served directly withou
       token: "synthetic",
       fetch: async (url, init) => {
         const target = new URL(url);
-        assert.equal(target.origin, endpoint ?? "https://source.breaklint.com");
+        assert.equal(target.origin, endpoint ?? "https://source.mergeray.com");
         assert.equal(init.redirect, "error");
         assert.equal(init.headers["user-agent"], "mergeray/0.2.0");
         paths.push(target.pathname);
