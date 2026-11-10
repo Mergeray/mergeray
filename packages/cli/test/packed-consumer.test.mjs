@@ -126,7 +126,7 @@ globalThis.fetch=async (url,init)=>{
  if(new URL(url).origin !== (process.env.EXPECTED_ORIGIN ?? "https://fixture.invalid")) throw new Error("wrong service origin");
  if(init.redirect !== "error") throw new Error("redirects must fail");
  if(process.env.EXPECTED_TOKEN && init.headers.authorization !== "Bearer " + process.env.EXPECTED_TOKEN) throw new Error("wrong credential precedence");
- if(init.headers["user-agent"] !== "mergeray/0.2.0") throw new Error("wrong client identity");
+ if(init.headers["user-agent"] !== "mergeray/0.2.1") throw new Error("wrong client identity");
  if(process.env.TEST_INTERRUPT==='1'){process.emit('SIGINT');return new Response(JSON.stringify({errorSchemaVersion:'1.0',code:'UNAUTHENTICATED',retry:'never'}),{status:401});}
  if(new URL(url).pathname==='/capabilities')return new Response(JSON.stringify({versions:[CAPABILITIES]}));
  const {request:q}=JSON.parse(init.body);const acceptedAt=new Date().toISOString().replace(/\\.\\d{3}Z$/,'Z');const t=Date.parse(acceptedAt);const iso=n=>new Date(n).toISOString().replace('.000Z','Z');

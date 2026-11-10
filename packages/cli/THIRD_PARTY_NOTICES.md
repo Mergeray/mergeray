@@ -115,14 +115,14 @@ Generated from the installed lockfile graph and Action bundler inputs. No legal 
 | type-check | 0.4.0 | MIT | no | development |
 | typescript | 5.9.3 | Apache-2.0 | no | development |
 | typescript-eslint | 8.66.0 | MIT | no | development |
-| undici | 6.29.0 | MIT | yes | runtime |
+| undici | 6.29.1 | MIT | yes | runtime |
 | undici-types | 6.21.0 | MIT | no | development |
 | universal-user-agent | 7.0.3 | ISC | yes | runtime |
 | uri-js | 4.4.1 | BSD-2-Clause | no | development |
 | which | 2.0.2 | ISC | no | development |
 | word-wrap | 1.2.5 | MIT | no | development |
 | yocto-queue | 0.1.0 | MIT | no | development |
-| zod | 4.4.3 | MIT | yes | runtime |
+| zod | 4.6.7 | MIT | yes | runtime |
 
 ## @actions/core@3.0.1
 
@@ -5128,7 +5128,7 @@ SOFTWARE.
 
 ```
 
-## undici@6.29.0
+## undici@6.29.1
 
 ### LICENSE
 
@@ -5315,7 +5315,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ```
 
-## zod@4.4.3
+## zod@4.6.7
 
 ### LICENSE
 

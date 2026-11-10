@@ -64,7 +64,7 @@ try {
     run("tar", ["-xzf", tar, "--strip-components=1", "-C", dest]);
     const manifest = JSON.parse(readFileSync(join(dest, "package.json"), "utf8"));
     assert.equal(manifest.name, name === "cli" ? "mergeray" : `@mergeray/${name}`);
-    assert.equal(manifest.version, "0.2.0");
+    assert.equal(manifest.version, "0.2.1");
     assert.equal(manifest.license, "Apache-2.0");
     assert.equal(manifest.private === true, name === "github-action");
     assert.equal(
@@ -73,7 +73,7 @@ try {
     );
     assert.equal(manifest.repository.directory, `packages/${name}`);
     for (const [dependency, version] of Object.entries(manifest.dependencies ?? {}))
-      if (dependency.startsWith("@mergeray/")) assert.equal(version, "0.2.0");
+      if (dependency.startsWith("@mergeray/")) assert.equal(version, "0.2.1");
     for (const file of ["LICENSE.md", "NOTICE", "THIRD_PARTY_NOTICES.md"])
       assert.equal(
         readFileSync(join(dest, file), "utf8"),
@@ -154,7 +154,7 @@ try {
   );
   assert.equal(
     run("npx", ["--offline", "--no-install", "mergeray", "--version"]).trim(),
-    "0.2.0",
+    "0.2.1",
   );
   assert.ok(!readdirSync(join(consumer, "node_modules/.bin")).includes("breaklint"));
   writeFileSync(

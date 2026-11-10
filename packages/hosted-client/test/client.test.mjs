@@ -106,7 +106,7 @@ test("default MergeRay origin and explicit origins are served directly without f
         const target = new URL(url);
         assert.equal(target.origin, endpoint ?? "https://source.mergeray.com");
         assert.equal(init.redirect, "error");
-        assert.equal(init.headers["user-agent"], "mergeray/0.2.0");
+        assert.equal(init.headers["user-agent"], "mergeray/0.2.1");
         paths.push(target.pathname);
         return Response.json(
           target.pathname === "/capabilities"

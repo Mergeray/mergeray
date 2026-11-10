@@ -7,3 +7,7 @@ verifyDepsBeforeRun: false
 # Use the locked platform binary; dependency lifecycle scripts are unnecessary.
 allowBuilds:
   esbuild: false
+
+# GitHub's @actions packages resolve undici 6.29.0; 6.29.1 fixes published advisories.
+overrides:
+  undici: 6.29.1

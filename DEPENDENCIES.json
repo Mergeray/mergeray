@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "scope": "Resolved public runtime and development graph; Action input closure",
   "direct": [
-    { "owner": "@mergeray/public-protocol", "name": "zod", "version": "4.4.3" },
+    { "owner": "@mergeray/public-protocol", "name": "zod", "version": "4.6.7" },
     {
       "owner": "@mergeray/public-config",
       "name": "@mergeray/public-protocol",
       "version": "workspace:*"
     },
-    { "owner": "@mergeray/public-config", "name": "zod", "version": "4.4.3" },
+    { "owner": "@mergeray/public-config", "name": "zod", "version": "4.6.7" },
     {
       "owner": "@mergeray/hosted-client",
       "name": "@mergeray/public-protocol",
@@ -1971,7 +1971,7 @@
     },
     {
       "name": "undici",
-      "version": "6.29.0",
+      "version": "6.29.1",
       "license": "MIT",
       "scopes": ["runtime"],
       "bundledInAction": true,
@@ -2087,7 +2087,7 @@
     },
     {
       "name": "zod",
-      "version": "4.4.3",
+      "version": "4.6.7",
       "license": "MIT",
       "scopes": ["runtime"],
       "bundledInAction": true,

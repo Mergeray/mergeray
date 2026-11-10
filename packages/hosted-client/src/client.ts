@@ -111,7 +111,7 @@ export function createHostedClient(options: {
           method,
           redirect: "error",
           headers: {
-            "user-agent": "mergeray/0.2.0",
+            "user-agent": "mergeray/0.2.1",
             authorization: `Bearer ${options.token}`,
             "content-type":
               body instanceof Uint8Array

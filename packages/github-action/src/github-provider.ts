@@ -18,7 +18,7 @@ export function createGitHubProvider(
   ): Promise<{ id: string; createdAt: string }>;
 } {
   const github = getOctokit(token, {
-    userAgent: "mergeray/0.2.0",
+    userAgent: "mergeray/0.2.1",
     request: { timeout: 30000, ...(fetcher ? { fetch: fetcher } : {}) },
   });
   const target = (c: RevisionContext) => ({ owner: c.owner, repo: c.repo });
