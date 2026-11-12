@@ -45,8 +45,22 @@
     "url": "git+https://github.com/Mergeray/mergeray.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/Mergeray/mergeray#readme",
+  "homepage": "https://www.mergeray.com",
   "bugs": {
     "url": "https://github.com/Mergeray/mergeray/issues"
-  }
+  },
+  "keywords": [
+    "responsive",
+    "layout",
+    "css",
+    "react",
+    "nextjs",
+    "tailwindcss",
+    "github-action",
+    "code-review",
+    "pull-request",
+    "static-analysis",
+    "developer-tools",
+    "cli"
+  ]
 }

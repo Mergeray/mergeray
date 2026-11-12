@@ -1,19 +1,58 @@
 # MergeRay
 
-Breaklint is now MergeRay. Breaklint 0.1.0 → MergeRay 0.2.0 is one product lineage,
-with no acquisition or ownership change. Old Breaklint artifacts remain available
-for compatibility. See [migration](docs/migration.md). This 0.2.0 candidate is not
-yet published; service enrollment requires an operator-approved endpoint.
+**Small diff. Bigger impact.** MergeRay reviews pull requests for responsive layout
+breaks (the horizontal overflow, the collapsed column, the card that does not fit
+at 320px) and traces each finding to the source line, with evidence in a GitHub Check.
 
-MergeRay is a source-native responsive regression reviewer for pull requests.
-Its public CLI and GitHub Action send a bounded immutable source/revision package
-over authenticated HTTPS to the private hosted MergeRay service. The analyzer
-engine is proprietary and is not included in this repository. Results include
-explicit coverage and uncertainty.
+[![npm](https://img.shields.io/npm/v/mergeray)](https://www.npmjs.com/package/mergeray)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE.md)
 
-Source is the primary truth. No browser, preview URL, application deployment,
-application login, or customer runtime environment is needed. Public v1 does not include runtime verification,
-AI explanations, repairs, or an offline analysis engine.
+- **From source.** No browser, preview deployment, application login or runtime
+  environment is needed. MergeRay analyzes the committed source of React, Next.js and
+  CSS changes.
+- **Honest coverage.** Results state what was and was not analyzed. Empty findings
+  do not mean clean unless coverage is complete.
+- **Free for public repositories.** Private repositories need a Pro plan; billing is
+  not open yet (private beta).
+
+Website and dashboard: **[mergeray.com](https://www.mergeray.com)** ·
+[Docs](https://www.mergeray.com/docs) · [Pricing](https://www.mergeray.com/pricing)
+
+> Formerly Breaklint. Breaklint 0.1.0 → MergeRay is one product lineage, with no
+> acquisition or ownership change. See [migration](docs/migration.md).
+
+## Quick start (public repository, about five minutes)
+
+1. Sign in at [mergeray.com](https://www.mergeray.com) with GitHub and create a workspace.
+2. Install the [MergeRay GitHub App](https://github.com/apps/mergeray) on your
+   repository and create a project for it in the dashboard.
+3. Commit this file to your default branch as `.github/workflows/mergeray.yml`. It
+   calls MergeRay's reviewed workflow, pinned to a full commit, and authenticates with
+   GitHub OIDC, so there is no token or secret to add:
+
+   ```yaml
+   name: MergeRay
+   on:
+     pull_request:
+       branches: [main]
+   permissions: {}
+   jobs:
+     review:
+       permissions:
+         id-token: write
+         contents: read
+         actions: read
+         pull-requests: read
+         checks: write
+       uses: Mergeray/review-workflow/.github/workflows/mergeray-review.yml@8475a569e98063ffe8fe5b109d37b2c2a37147ab
+   ```
+
+4. Open a pull request from a branch of the same repository. The result appears as a
+   GitHub Check on the pull request and in your dashboard.
+
+Keep the file name, the pinned commit and the permissions exactly as shown. Pull
+requests from forks are not reviewed. See the [Action guide](docs/github-action.md)
+and [CI security](docs/ci-security.md).
 
 ## Public v1 support
 
@@ -34,52 +73,33 @@ outside public v1.
 
 ## Use the CLI
 
-The CLI package is `mergeray`; the executable is `mergeray`. After publication
-of 0.2.0, use:
+The CLI submits committed source from your machine or from a coding agent. It needs a
+personal CLI token (dashboard → Manage → CLI tokens) and a Pro seat, so it is not
+available until billing opens. The public GitHub workflow above needs neither.
 
 ```sh
-npm install --global mergeray@0.2.0
+npm install --global mergeray
 mergeray --help
-npx mergeray@0.2.0 --version
 ```
-
-These registry examples describe post-publication usage, not current availability.
-The intended npm family is `@mergeray/public-protocol`, `@mergeray/public-config`,
-`@mergeray/hosted-client` and `mergeray`. The Action workspace package remains
-private and is distributed from `Mergeray/mergeray/action`, pinned to a verified
-full commit SHA. See the [Action guide](docs/github-action.md).
-
-Use Git and Node 22.14.0 or 24.21.0 (the exact tested versions). With a
-provider-approved service endpoint and a dedicated credential in `MERGERAY_TOKEN`:
 
 ```sh
+export MERGERAY_TOKEN=<your CLI token>
 mergeray --base BASE_COMMIT --head HEAD_COMMIT \
-  --repository REGISTERED_REPOSITORY_ID \
-  --service https://source.mergeray.com --config examples/mergeray.policy.json
+  --repository YOUR_REPOSITORY_ID --json
 ```
 
-Uppercase values are deliberate nonworking placeholders. The default endpoint
-`https://source.mergeray.com` and Action audience `urn:mergeray:source-service`
-identify the hosted MergeRay service.
-Service enrollment and authorization for the repository and policy are required;
-installing a package does not grant access. The command transfers source and is not
-a dry run. Uncommitted files are outside the comparison.
-
-The public flow is:
-
-```text
-Public CLI / GitHub Action
-  → bounded immutable source/revision package
-  → authenticated hosted MergeRay service
-  → sanitized result / GitHub Check
-```
+Requires Git and Node 22.14.0 or 24.21.0 (the exact tested versions). The command
+transfers source and is not a dry run; uncommitted files are not reviewed. Installing
+the package does not grant hosted access. The CLI sends a bounded, immutable
+source/revision package over HTTPS to the private hosted engine, which is proprietary
+and not included in this repository. See the [CLI reference](docs/cli.md) and the
+[config reference](docs/config.md).
 
 Source content is processed for analysis and service operation and is not used for
-model training, advertising or data sale. Read [source processing](docs/source-processing.md)
-for transient storage, metadata/results retention and GitHub output handling.
+model training, advertising or data sale. See [source processing](docs/source-processing.md)
+for transient storage, retention and GitHub output handling.
 
-Read the [CLI reference](docs/cli.md), [config reference](docs/config.md),
-[CI and fork security](docs/ci-security.md) and [known limits](docs/known-limitations.md).
+Read [known limits](docs/known-limitations.md) before relying on a result.
 
 ## Develop
 
