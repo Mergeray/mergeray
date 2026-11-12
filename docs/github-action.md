@@ -18,7 +18,7 @@ that either is already available. Moving version tags are not equivalent to immu
 | oidc-audience     | Exact operator audience; defaults to `urn:mergeray:source-service`. Requires `id-token: write`. |
 | github-token      | Separate GitHub context/publication token; defaults to github.token.                            |
 | working-directory | Git checkout containing exact Base and raw Head; defaults to `.`.                               |
-| inline            | Reserved compatibility input; keep `false`. Public v1 supports Check/summary only.              |
+| inline            | `true` also posts inline review comments for findings pinned to an exact changed line.          |
 
 Outputs are `status`, `conclusion`, `delivery` and `run-id`. Source conclusion and
 publication delivery remain separate. Missing credentials, unsupported events and

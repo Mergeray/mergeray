@@ -42,13 +42,14 @@ Website and dashboard: **[mergeray.com](https://www.mergeray.com)** ·
          id-token: write
          contents: read
          actions: read
-         pull-requests: read
+         pull-requests: write
          checks: write
-       uses: Mergeray/review-workflow/.github/workflows/mergeray-review.yml@8475a569e98063ffe8fe5b109d37b2c2a37147ab
+       uses: Mergeray/review-workflow/.github/workflows/mergeray-review.yml@9d946eea8e52111278cede59d4427df5249e952f
    ```
 
 4. Open a pull request from a branch of the same repository. The result appears as a
-   GitHub Check on the pull request and in your dashboard.
+   GitHub Check on the pull request and in your dashboard. A finding that can be
+   pinned to an exact changed line is also posted as an inline review comment.
 
 Keep the file name, the pinned commit and the permissions exactly as shown. Pull
 requests from forks are not reviewed. See the [Action guide](docs/github-action.md)
@@ -64,7 +65,7 @@ and [CI security](docs/ci-security.md).
 | Dynamic content and intrinsic dimensions                                | Abstains where dimensions cannot be proven                                        |
 | Tailwind / framework themes                                             | Limited; complete theme semantics are unsupported                                 |
 | Typography and arbitrary runtime styles                                 | Intrinsic text measurement and browser-equivalent behavior are unsupported        |
-| GitHub delivery                                                         | Check and job summary; public inline review comments are outside v1               |
+| GitHub delivery                                                         | Check and job summary; inline comments only for findings pinned to a changed line |
 
 Empty findings do not mean clean unless analysis is complete. Unsupported or
 indeterminate input remains inconclusive; proven blocking findings may still fail

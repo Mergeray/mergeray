@@ -11,7 +11,7 @@ jobs:
       id-token: write
       contents: read
       actions: read
-      pull-requests: read
+      pull-requests: write
       checks: write
     steps:
       - name: Require supported same-repository PR
@@ -34,4 +34,4 @@ jobs:
           service-url: https://source.mergeray.com
           oidc-audience: urn:mergeray:source-service
           github-token: ${{ github.token }}
-          inline: "false"
+          inline: "true"

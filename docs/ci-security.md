@@ -15,8 +15,11 @@ analysis and account for the two job paths. Decide the repository's policy for
 external contributions before enabling this as a required check.
 
 Trusted same-repository review needs `id-token: write`, `contents: read`,
-`actions: read`, `pull-requests: read` and `checks: write`. Keep inline disabled;
-public v1 requires no pull-request write permission.
+`actions: read`, `checks: write` and `pull-requests: write`. The write permission is
+used only to post inline review comments on lines the service pinned to a finding;
+the job checks out the pull request without credentials and executes none of its
+code. For Check and summary only, set `inline: "false"` and grant
+`pull-requests: read` instead.
 GitHub publication credentials and OIDC identity stay separate. Limit service scope to the approved
 repository, policy and execution context, and provide rotation/revocation.
 
